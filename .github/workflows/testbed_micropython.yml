@@ -23,7 +23,7 @@ on:
         type: string
   
 jobs:
-  greet:
+  testbed_micropython:
     runs-on: octoprobe
 
     steps:
@@ -33,4 +33,4 @@ jobs:
     - name: Run mptest
       run: |
         . ~/.profile
-        mptest ${{ inputs.repo_tests }} ${{ inputs.repo_firmware }} ${{ inputs.aux }}
+        mptest test ${{ inputs.repo_tests }} ${{ inputs.repo_firmware }} ${{ inputs.aux }}
