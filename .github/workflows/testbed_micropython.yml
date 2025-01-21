@@ -28,8 +28,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v3
+
     - name: Send greeting
       run: echo "Hello mptest ${{ inputs.repo_tests }} ${{ inputs.repo_firmware }} ${{ inputs.aux }}"
+
+    - name: Get Pages history
+      uses: actions/checkout@v3
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
 
     - name: Run mptest
       run: |
