@@ -33,4 +33,4 @@ jobs:
     - name: Run mptest
       run: |
         . ~/.profile
-        mptest test ${{ inputs.repo_tests }} ${{ inputs.repo_firmware }} ${{ inputs.aux }}
+        mptest test --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
