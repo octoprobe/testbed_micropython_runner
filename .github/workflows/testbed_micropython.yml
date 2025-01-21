@@ -36,7 +36,8 @@ jobs:
         . ~/.profile
         mkdir -p testresults
         touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
-        echo Hello ${{ github.run_id }} ${{ github.run_number }} > testresults/index.html
+        hostname > testresults/index.html
+        echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
         # mptest test --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
       timeout-minutes: 30.0
 
