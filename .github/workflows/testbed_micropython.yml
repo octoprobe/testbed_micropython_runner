@@ -1,4 +1,4 @@
-name: Manual workflow
+name: testbed_micropython Start
 
 on:
   workflow_dispatch:
@@ -24,7 +24,8 @@ on:
   
 jobs:
   testbed_micropython:
-    runs-on: octoprobe
+    # runs-on: octoprobe
+    runs-on: ubuntu-latest
 
     steps:
     - name: Send greeting
@@ -33,4 +34,15 @@ jobs:
     - name: Run mptest
       run: |
         . ~/.profile
-        mptest test --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
+        mkdir -p testresults
+        touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
+        # mptest test --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
+      timeout-minutes: 30.0
+
+    - name: Deploy results to Github Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v2
+      env:
+        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: testresults
