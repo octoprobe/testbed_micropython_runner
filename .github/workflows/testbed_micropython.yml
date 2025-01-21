@@ -34,6 +34,7 @@ jobs:
     - name: Run mptest
       run: |
         . ~/.profile
+        pwd
         rm -rf testresults
         cp -r /home/githubrunner/testbed_micropython testresults
         touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
