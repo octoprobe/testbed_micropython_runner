@@ -24,8 +24,8 @@ on:
   
 jobs:
   testrun:
-    # runs-on: octoprobe
-    runs-on: ubuntu-latest
+    runs-on: octoprobe
+    # runs-on: ubuntu-latest
 
     steps:
     - name: Send greeting
