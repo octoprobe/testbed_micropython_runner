@@ -30,10 +30,6 @@ jobs:
     - name: Send greeting
       run: echo "Hello mptest ${{ inputs.repo_tests }} ${{ inputs.repo_firmware }} ${{ inputs.aux }}"
 
-  mptest:
-    runs-on: octoprobe
-
-    steps:
     - name: Run mptest
       run: |
         . ~/.profile
