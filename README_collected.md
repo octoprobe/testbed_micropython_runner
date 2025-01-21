@@ -23,11 +23,11 @@ https://github.com/hmaerki/experiment_microoctopus/settings/actions/runners/new
 
 ```bash
 mkdir actions-runner && cd actions-runner
-curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz
-echo "9e883d210df8c6028aff475475a457d380353f9d01877d51cc01a17b2a91161d  actions-runner-linux-x64-2.317.0.tar.gz" | shasum -a 256 -c
-tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
+curl -o actions-runner-linux-x64-2.321.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz
+echo "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e  actions-runner-linux-x64-2.321.0.tar.gz" | shasum -a 256 -c
+tar xzf ./actions-runner-linux-x64-2.321.0.tar.gz
 
-./config.sh --url https://github.com/hmaerki/experiment_microoctopus --token xxx
+./config.sh --url https://github.com/octoprobe/testbed_micropython_runner --token xxx
 ./run.sh
 ```
 
@@ -35,8 +35,11 @@ tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
 
 Group: Default (should be octoprobe)
 Name of runner: ch-wetzikon-1
-labels: octoprobe,infrstructure_tutorial,mcu_pyboard,mcu_raspberry_pico
+labels: octoprobe,testbed_micropython
 work folder: _work
+
+## Install testbed_micropython
+
 
 ## Workflow
 
