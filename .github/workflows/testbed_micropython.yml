@@ -36,7 +36,7 @@ jobs:
         . ~/.profile
         pwd
         rm -rf testresults
-        cp -r /home/githubrunner/testbed_micropython testresults
+        cp -r /home/githubrunner/testbed_micropython/results testresults
         touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
         hostname > testresults/index.html
         echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
