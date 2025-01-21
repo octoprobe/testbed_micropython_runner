@@ -41,17 +41,17 @@ jobs:
       timeout-minutes: 30.0
 
     - name: Setup Pages
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/gh-pages'
       uses: actions/configure-pages@v3
 
     - name: Upload Artifact
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/gh-pages'
       uses: actions/upload-pages-artifact@v1
       with:
         path: "./testresults"
 
   deploy-testresults:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/gh-pages'
     runs-on: ubuntu-latest
     needs: testrun
     
