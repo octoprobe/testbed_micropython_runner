@@ -38,7 +38,7 @@ jobs:
         # rm -rf testresults
         # cp -r /home/githubrunner/testbed_micropython/results testresults
         # touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
-        mptest test --resutls=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
+        mptest test --results=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
         hostname > testresults/index.html
         echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
       timeout-minutes: 30.0
