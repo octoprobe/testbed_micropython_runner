@@ -4,6 +4,11 @@ on:
   issues:
     types: [opened]
 
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 jobs:
   trace:
     runs-on: ubuntu-latest
@@ -23,3 +28,15 @@ jobs:
       # https://youtu.be/-hVG9z0fCac?si=dAAVltMAbmwyMQBu
       run: echo '${{ toJson(github) }}' | jq --color-output
       shell: bash
+
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body: |
+          This is a multi-line test comment
+          - With GitHub **Markdown** :sparkles:
+          - Created by [create-or-update-comment][1]
+
+          [1]: https://github.com/peter-evans/create-or-update-comment
+        reactions: '+1'
