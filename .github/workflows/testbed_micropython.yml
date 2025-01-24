@@ -34,8 +34,15 @@ jobs:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
 
-    - name: Dump GitHub context 2
-      run: echo ${{ toJson(github) }}
+    - name: Dump GitHub Event
+      # https://youtu.be/-hVG9z0fCac?si=dAAVltMAbmwyMQBu
+      run: echo '${{ toJson(github.event) }}' | jq
+      shell: bash
+
+    - name: Dump GitHub Event 2
+      # https://youtu.be/-hVG9z0fCac?si=dAAVltMAbmwyMQBu
+      run: echo '${{ toJson(github) }}' | jq
+      shell: bash
 
   testrun:
     runs-on: octoprobe
