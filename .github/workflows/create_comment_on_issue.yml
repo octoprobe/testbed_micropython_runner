@@ -58,7 +58,7 @@ jobs:
         gh api -X POST \
           https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issues/${ISSUE_NUMBER} \
           -f body='
-          Comment but from the API call
+          Comment but from the API call 1
           '
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -67,3 +67,16 @@ jobs:
         ORGANIZATION: ${{ github.event.organization.login }}
         REPOSITORY: ${{ github.event.repository.name }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
+
+    - name: Create comment with API 2
+      run: |
+        echo URL=https://api.github.com/repos/${{ github.event.organization.login }}/${{ github.event.repository.name }}/issues/${{ github.event.issue.number }} \
+
+        gh api -X POST \
+          https://api.github.com/repos/${{ github.event.organization.login }}/${{ github.event.repository.name }}/issues/${{ github.event.issue.number }} \
+          -f body='
+          Comment but from the API call 2
+          '
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
