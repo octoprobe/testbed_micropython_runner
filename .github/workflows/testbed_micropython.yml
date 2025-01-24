@@ -1,4 +1,4 @@
-name: testbed_micropython Start
+name: testbed_micropython
 
 on:
   workflow_dispatch:
@@ -6,13 +6,15 @@ on:
     inputs:
       repo_tests:
         description: 'The microptyhon repo used for the test code'
-        default: 'https://github.com/micropython/micropython.git@v1.24.1'
+        # default: 'https://github.com/micropython/micropython.git@v1.24.1'
+        default: 'https://github.com/micropython/micropython.git@master'
         required: true
         type: string
 
       repo_firmware:
         description: 'The microptyhon repo used to build the firmware'
-        default: 'https://github.com/micropython/micropython.git@v1.24.1'
+        # default: 'https://github.com/micropython/micropython.git@v1.24.1'
+        default: 'https://github.com/micropython/micropython.git@master'
         required: true
         type: string
 
@@ -47,10 +49,16 @@ jobs:
       if: github.ref == 'refs/heads/main'
       uses: actions/configure-pages@v3
 
-    - name: Upload Artifact
+    - name: Upload Pages Artifacts
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-pages-artifact@v1
       with:
+        path: "./testresults"
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: octoprobe-report
         path: "./testresults"
 
   deploy-testresults:
