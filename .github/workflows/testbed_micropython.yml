@@ -25,6 +25,18 @@ on:
         type: string
   
 jobs:
+  trace:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump GitHub context
+      # https://manski.net/articles/github/actions/dump-context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
+    - name: Dump GitHub context 2
+      run: echo ${{ toJson(github) }}
+
   testrun:
     runs-on: octoprobe
     # runs-on: ubuntu-latest
