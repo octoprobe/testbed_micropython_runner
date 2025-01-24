@@ -49,13 +49,14 @@ jobs:
   
     - name: Create comment with API
       # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-github-cli-in-workflows
+      # https://docs.github.com/en/rest/issues/issues?apiVersion=2022-11-28#update-an-issue
       run: |
-        echo https://api.github.com/repo/${ORGANIZATION}/${REPOSITORY}/issue/${ISSUE_NUMBER}
+        echo https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issue/${ISSUE_NUMBER}
         echo GITHUB_TOKEN=$GITHUB_TOKEN
         echo GH_TOKEN=$GH_TOKEN
         echo ISSUE=$ISSUE
         gh api -X POST \
-          http://api.github.com/repo/${ORGANIZATION}/${REPOSITORY}/issue/${ISSUE_NUMBER}
+          https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issue/${ISSUE_NUMBER}
           -f body='
           Comment but from the API call
           '
