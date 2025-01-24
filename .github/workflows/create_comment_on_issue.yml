@@ -56,7 +56,7 @@ jobs:
         echo GH_TOKEN=$GH_TOKEN
         echo ISSUE=$ISSUE
         gh api -X POST \
-          https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issue/${ISSUE_NUMBER}
+          https://api.github.com/repos/${ORGANIZATION}/${REPOSITORY}/issues/${ISSUE_NUMBER} \
           -f body='
           Comment but from the API call
           '
