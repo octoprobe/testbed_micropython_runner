@@ -40,3 +40,13 @@ jobs:
 
           [1]: https://github.com/peter-evans/create-or-update-comment
         reactions: '+1'
+
+    - name: Create comment with API
+      run: |
+        gh api -X POST \
+          https://api.github.com/repo/${ORGANIZATION}/${REPOSITORY}/issue/${ISSUE_NUMBER}
+          -f body='
+          Comment but from the API call
+          '
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
