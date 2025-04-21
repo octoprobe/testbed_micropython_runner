@@ -23,7 +23,12 @@ on:
         default: '--git-clean --flash-force --only-test=RUN-TESTS_EXTMOD_HARDWARE --only-board=RPI_PICO_W'
         required: false
         type: string
-  
+
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
 jobs:
   trace:
     runs-on: ubuntu-latest
@@ -64,6 +69,14 @@ jobs:
         echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
       timeout-minutes: 60.0
 
+    - name: Add summary report
+      # https://github.com/peter-evans/create-or-update-comment/blob/main/README.md
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        # issue-number: ${{ github.event.issue.number }}
+        issue-number: 19
+        body-path: "./testresults/octoprobe_summary_report.md"
+
     - name: Setup Pages
       if: github.ref == 'refs/heads/main'
       uses: actions/configure-pages@v3
@@ -80,7 +93,7 @@ jobs:
       with:
         name: octoprobe-report
         path: "./testresults"
-
+  
   deploy-testresults:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
