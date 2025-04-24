@@ -33,31 +33,27 @@ jobs:
   trace:
     runs-on: ubuntu-latest
     steps:
-    - name: Dump GitHub context
+    - name: Dump GitHub Context
       # https://manski.net/articles/github/actions/dump-context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+      run: echo "$GITHUB_CONTEXT" | jq -C
+
+    - name: Dump GitHub Context 2
+      # https://youtu.be/-hVG9z0fCac?si=dAAVltMAbmwyMQBu
+      run: echo '${{ toJson(github) }}' | jq -C
+      shell: bash
 
     - name: Dump GitHub Event
       # https://youtu.be/-hVG9z0fCac?si=dAAVltMAbmwyMQBu
-      run: echo '${{ toJson(github.event) }}' | jq
+      run: echo '${{ toJson(github.event) }}' | jq -C
       shell: bash
-
-    - name: Dump GitHub Event 2
-      # https://youtu.be/-hVG9z0fCac?si=dAAVltMAbmwyMQBu
-      run: echo '${{ toJson(github) }}' | jq
-      shell: bash
-
-    - name: Dump Runner Name
-      env:
-        RUNNER_NAME: ${{ runner.name }}
-      run: echo "$RUNNER_NAME"
 
     - name: Dump local environment
       env:
-        RUNNER_NAME: ${{ runner.name }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: env
+      shell: bash
 
   testrun:
     runs-on: octoprobe
@@ -70,15 +66,17 @@ jobs:
     - name: Run mptest
       run: |
         . ~/.profile
-        # pwd
-        # rm -rf testresults
-        # cp -r /home/githubrunner/testbed_micropython/results testresults
-        # touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
+
         mptest test --testresults=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
-        mptest report --testresults=./testresults
-        # tar -czf testresults.tgz ./testresults
-        # hostname > testresults/index.html
-        # echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
+
+        mkdir -p ./testresults/github_debug
+        env > ./testresults/github_debug/env.txt
+        echo '${{ toJson(github) }}' > ./testresults/github_debug/github.json
+        echo '${{ toJson(inputs) }}' > ./testresults/github_debug/inputs.json
+        echo Backlink: '${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}'
+
+        mptest report --testresults=./testresults --label 'github_${{ github.workflow }}_${{ github.run_number }}' --action-url='${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}'
+
       timeout-minutes: 60.0
 
     - name: Add summary report
@@ -103,7 +101,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: octoprobe-report
+        name: octoprobe-testresults-${{ github.workflow }}_${{ github.run_number }}
         path: "./testresults/**"
   
   # deploy-testresults:
