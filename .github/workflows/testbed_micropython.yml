@@ -65,8 +65,10 @@ jobs:
         # cp -r /home/githubrunner/testbed_micropython/results testresults
         # touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
         mptest test --testresults=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
-        hostname > testresults/index.html
-        echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
+        mptest report --testresults=./testresults
+        tar -czf testresults.tgz ./testresults
+        # hostname > testresults/index.html
+        # echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
       timeout-minutes: 60.0
 
     - name: Add summary report
@@ -77,22 +79,22 @@ jobs:
         issue-number: 19
         body-path: "./testresults/octoprobe_summary_report.md"
 
-    - name: Setup Pages
-      if: github.ref == 'refs/heads/main'
-      uses: actions/configure-pages@v3
+    # - name: Setup Pages
+    #   if: github.ref == 'refs/heads/main'
+    #   uses: actions/configure-pages@v3
 
-    - name: Upload Pages Artifacts
-      if: github.ref == 'refs/heads/main'
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: "./testresults"
+    # - name: Upload Pages Artifacts
+    #   if: github.ref == 'refs/heads/main'
+    #   uses: actions/upload-pages-artifact@v3
+    #   with:
+    #     path: "./testresults"
 
     - name: Upload Artifacts
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: octoprobe-report
-        path: "./testresults"
+        path: "./testresults.tgz"
   
   deploy-testresults:
     if: github.ref == 'refs/heads/main'
