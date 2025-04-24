@@ -49,6 +49,16 @@ jobs:
       run: echo '${{ toJson(github) }}' | jq
       shell: bash
 
+    - name: Dump Runner Name
+      env:
+        RUNNER_NAME: ${{ runner.name }}
+      run: echo "$RUNNER_NAME"
+
+    - name: Dump local environment
+      env:
+        RUNNER_NAME: ${{ runner.name }}
+      run: env
+
   testrun:
     runs-on: octoprobe
     # runs-on: ubuntu-latest
