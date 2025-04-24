@@ -66,7 +66,7 @@ jobs:
         # touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
         mptest test --testresults=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
         mptest report --testresults=./testresults
-        tar -czf testresults.tgz ./testresults
+        # tar -czf testresults.tgz ./testresults
         # hostname > testresults/index.html
         # echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
       timeout-minutes: 60.0
@@ -94,7 +94,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: octoprobe-report
-        path: "./testresults.tgz"
+        path: "./testresults/**"
   
   # deploy-testresults:
   #   if: github.ref == 'refs/heads/main'
