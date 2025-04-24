@@ -20,7 +20,7 @@ on:
 
       aux:
         description: 'Auxiliary arguments to mptest'
-        default: '--git-clean --flash-force --only-test=RUN-TESTS_EXTMOD_HARDWARE --only-board=RPI_PICO_W'
+        default: '--git-clean --flash-skip --only-test=RUN-TESTS_EXTMOD_HARDWARE --only-board=RPI_PICO_W'
         required: false
         type: string
 
@@ -64,7 +64,7 @@ jobs:
         # rm -rf testresults
         # cp -r /home/githubrunner/testbed_micropython/results testresults
         # touch testresults/testresult_${{ github.run_id }}_${{ github.run_number }}.txt
-        mptest test --results=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
+        mptest test --testresults=./testresults --micropython-tests ${{ inputs.repo_tests }} --firmware-build ${{ inputs.repo_firmware }} ${{ inputs.aux }}
         hostname > testresults/index.html
         echo Hello ${{ github.run_id }} ${{ github.run_number }} >> testresults/index.html
       timeout-minutes: 60.0
