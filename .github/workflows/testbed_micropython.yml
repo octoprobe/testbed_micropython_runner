@@ -76,7 +76,6 @@ jobs:
         echo Backlink: '${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}'
 
         mptest report --testresults=./testresults --label 'github_${{ github.workflow }}_${{ github.run_number }}' --action-url='${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}'
-
       timeout-minutes: 60.0
 
     - name: Add summary report
@@ -84,7 +83,7 @@ jobs:
       uses: peter-evans/create-or-update-comment@v4
       with:
         # issue-number: ${{ github.event.issue.number }}
-        issue-number: 19
+        issue-number: 20
         body-path: "./testresults/octoprobe_summary_report.md"
 
     # - name: Setup Pages
