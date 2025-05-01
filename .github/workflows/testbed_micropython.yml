@@ -20,13 +20,13 @@ on:
         description: 'The microptyhon repo used to build the firmware'
         # default: 'https://github.com/micropython/micropython.git@v1.24.1'
         default: 'https://github.com/micropython/micropython.git@master'
-        required: true
+        required: false
         type: string
 
       arguments:
-        description: 'Auxiliary arguments to mptest'
-        default: '--git-clean --flash-skip --only-test=RUN-TESTS_EXTMOD_HARDWARE --only-board=RPI_PICO_W'
-        required: true
+        description: 'Auxiliary arguments to mptest. Example: --git-clean --flash-skip --only-test=RUN-TESTS_EXTMOD_HARDWARE --only-board=RPI_PICO_W'
+        default: ''
+        required: false
         type: string
 
 permissions:
@@ -40,9 +40,6 @@ jobs:
     # runs-on: ubuntu-latest
 
     steps:
-    - name: Send greeting
-      run: echo "Hello mptest ${{ inputs.repo_tests }} ${{ inputs.repo_firmware }} ${{ inputs.arguments }}"
-
     - name: Run mptest
       run: |
         . ~/.profile
@@ -50,7 +47,7 @@ jobs:
         mptest test --testresults=./testresults --micropython-tests=${{ inputs.repo_tests }} --firmware-build=${{ inputs.repo_firmware }} ${{ inputs.arguments }}
 
         mkdir -p ./testresults/github_debug
-        env > ./testresults/github_debug/env.txt
+        # env > ./testresults/github_debug/env.txt
         echo '${{ toJson(github) }}' > ./testresults/github_debug/github.json
         echo '${{ toJson(inputs) }}' > ./testresults/github_debug/inputs.json
         echo Backlink: '${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}'
